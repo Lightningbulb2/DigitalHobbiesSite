@@ -4,7 +4,7 @@
 </script>
 
 <div class="app">
-	<Header />
+	<Header class="header" />
 
 	<main class="bg-dark text-white">
 		<div class="container">
@@ -18,10 +18,16 @@
 <style>
 	.app {
 		height: 100vh;
+		display: flex;
+		flex-direction: column;
 	}
 
-	main {
-		height: 100%;
+	.header {
+		flex-shrink: 1;
+	}
 
+
+	main {
+		flex-grow: 1;
 	}
 </style>
