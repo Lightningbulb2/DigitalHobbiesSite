@@ -1,0 +1,12 @@
+@import "bootstrap/scss/functions";
+@import "bootstrap/scss/variables";
+
+
+$custom: (
+        myown: purple
+);
+$theme-colors: map-merge($theme-colors, $custom);
+
+
+@import "bootstrap/scss/bootstrap.scss";
+

@@ -1,6 +1,7 @@
 <script>
 	import Header from './Header.svelte';
 	import './styles.css';
+	import "../lib/styles/global.scss"
 </script>
 
 <div class="app">
@@ -16,6 +17,7 @@
 </div>
 
 <style>
+
 	.app {
 		height: 100vh;
 		display: flex;
