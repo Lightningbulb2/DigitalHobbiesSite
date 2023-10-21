@@ -3,10 +3,11 @@
 
 
 $custom: (
-        myown: purple
+        notquiteblack: #171717
 );
 $theme-colors: map-merge($theme-colors, $custom);
 
 
 @import "bootstrap/scss/bootstrap.scss";
 
+//*{font-size: clamp(1rem, 2vw + 0.75rem, 1.5rem) !important;}
