@@ -3,6 +3,9 @@ This project was started on 10/17/2023
 
 This is a website created for the purpose of documenting my ventures into a variety of digital hobbies in the hopes to inspire you to try something or just show off my skills
  
+ Git bash cheat sheet:
+ https://education.github.com/git-cheat-sheet-education.pdf
+ 
  
  start a development server:
 
