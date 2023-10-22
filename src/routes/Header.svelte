@@ -28,7 +28,7 @@
 
 <header>
 
-	<Navbar color="black" class="d-flex justify-content-md-center" dark expand="lg">
+	<Navbar color="black" class="d-flex justify-content-md-center shadow" dark expand="lg">
 
 
 		<NavbarToggler on:click={() => (isOpen = !isOpen)} />

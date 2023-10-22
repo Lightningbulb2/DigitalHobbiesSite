@@ -1,13 +1,52 @@
 <script>
 	import {Card, CardBody, CardFooter, CardHeader, CardTitle} from 'sveltestrap';
 	import Logo from "../lib/assets/LightningbulbLogo.png"
-
-	import { slide } from 'svelte/transition';
+	import { onMount } from "svelte";
+	import { slide, fade } from 'svelte/transition';
 	let showingCard = true;
 
 	function toggleCard() {
 		showingCard = !showingCard;
 	}
+
+	let y = 0;
+	$: console.log(y);
+
+
+	let thechosenone;
+	onMount(() => {
+		thechosenone.value = document.getElementById("note");
+	});
+
+	//let showNote = false;
+/*
+	const elementIsVisibleInViewport = (el, partiallyVisible = false) => {
+		const { top, left, bottom, right } = el.getBoundingClientRect();
+		const { innerHeight, innerWidth } = window;
+		return partiallyVisible
+				? ((top > 0 && top < innerHeight) ||
+						(bottom > 0 && bottom < innerHeight)) &&
+				((left > 0 && left < innerWidth) || (right > 0 && right < innerWidth))
+				: top >= 0 && left >= 0 && bottom <= innerHeight && right <= innerWidth;
+	};
+
+	if (elementIsVisibleInViewport(document.getElementById("note"), true))
+	{
+		showNote= true;
+	}
+*/
+	function isInViewport(element) {
+		const rect = element.getBoundingClientRect();
+		return (
+				rect.top >= 0 &&
+				rect.left >= 0 &&
+				rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+				rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+		);
+	}
+
+
+
 
 </script>
 
@@ -15,11 +54,11 @@
 	<title>Digital Hobbies</title>
 	<meta name="description" content="Digital Hobbies" />
 </svelte:head>
+<svelte:window bind:scrollY={y}/>
+<div class="d-flex flex-column justify-content-center p-5">
 
-<div class="d-flex justify-content-center p-5">
 
-
-	<Card style="width: 20rem" class="shadow-lg bg-notquiteblack text-center text-light">
+	<Card style="width: 20rem" class="shadow-lg bg-notquiteblack text-center text-light align-self-center">
 		<div style="height: 25rem" class=" shadow-lg bg-notequiteblack"
 			 on:mouseenter={() => {toggleCard();}}
 			 on:mouseleave={() => {toggleCard();}}>
@@ -61,6 +100,29 @@
 	</Card>
 
 
+	<div style="font-size: 100px; text-shadow: 0px 5px 5px #000;" class="align-self-center m-5 p-5">
+		Who am I?
+	</div>
+	<div id="note" style="font-size: 100px; text-shadow: 0px 5px 5px #000;" class="align-self-center m-5">
+		What is this site?
+	</div>
+
+	<div></div>
+
+	<!--{#if y >= 120}-->
+	{#if thechosenone && isInViewport(thechosenone)}
+		<div transition:fade|local class="align-self-center">
+		<Card style="width: 60rem" class="shadow-lg bg-notquiteblack text-center text-light vh-100">
+			<CardHeader>
+				<CardTitle>A Note has appeared...</CardTitle>
+			</CardHeader>
+			<CardBody>
+				Hi, I'm Levi or "Lightningbulb" as I go by online
+
+			</CardBody>
+		</Card>
+		</div>
+	{/if}
 </div>
 
 
