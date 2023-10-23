@@ -10,7 +10,7 @@
 	}
 
 	let y = 0;
-	$: console.log(y);
+	//$: console.log(y);
 
 
 	let thechosenone;
@@ -18,10 +18,17 @@
 		thechosenone = document.querySelector('#note');
 		document.addEventListener('scroll', function () {
 
-			if(isInViewport(thechosenone, true)) {showNote=true;
-				thechosenone.style.visibility ="visible";}else {
-				thechosenone.style.visibility ="hidden";
-				showNote=false}
+			console.log("checking if element is visible");
+			if(isInViewport(thechosenone, true)) {
+				showNote=true;
+				//thechosenone.style.visibility ="visible";
+				console.log("element is visible");
+			}
+			else {
+				console.log("element is invisible");
+				//thechosenone.style.visibility ="hidden";
+				showNote=false
+			}
 
 
 
@@ -121,12 +128,14 @@
 		What is this site?
 	</div>
 
-	<div></div>
+	<div ></div>
 
 	<!--{#if y >= 120}-->
-	<!--{#if showNote}-->
 
-		<div transition:fade|local id="note"  class="align-self-center">
+	<div id="note">
+	{#if showNote}
+		<div transition:fade|local class="align-self-center">
+
 		<Card style="width: 60rem" class="shadow-lg bg-notquiteblack text-center text-light vh-100">
 			<CardHeader>
 				<CardTitle>A Note has appeared...</CardTitle>
@@ -135,8 +144,10 @@
 				Hi, I'm Levi or "Lightningbulb" as I go by online
 			</CardBody>
 		</Card>
+
 		</div>
-	<!--{/if}-->
+		{/if}
+	</div>
 </div>
 
 
