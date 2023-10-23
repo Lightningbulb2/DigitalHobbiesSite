@@ -15,12 +15,24 @@
 
 	let thechosenone;
 	onMount(() => {
-		thechosenone.value = document.getElementById("note");
+		thechosenone = document.querySelector('#note');
+		document.addEventListener('scroll', function () {
+
+			if(isInViewport(thechosenone, true)) {showNote=true;
+				thechosenone.style.visibility ="visible";}else {
+				thechosenone.style.visibility ="hidden";
+				showNote=false}
+
+
+
+		}, {
+			passive: true
+		});
 	});
 
-	//let showNote = false;
-/*
-	const elementIsVisibleInViewport = (el, partiallyVisible = false) => {
+	let showNote = false;
+
+	const isInViewport = (el, partiallyVisible = false) => {
 		const { top, left, bottom, right } = el.getBoundingClientRect();
 		const { innerHeight, innerWidth } = window;
 		return partiallyVisible
@@ -30,13 +42,15 @@
 				: top >= 0 && left >= 0 && bottom <= innerHeight && right <= innerWidth;
 	};
 
-	if (elementIsVisibleInViewport(document.getElementById("note"), true))
-	{
-		showNote= true;
-	}
-*/
+
+/*
 	function isInViewport(element) {
+		console.log("checking viewport");
 		const rect = element.getBoundingClientRect();
+		console.log(rect.top >= 0 &&
+				rect.left >= 0 &&
+				rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+				rect.right <= (window.innerWidth || document.documentElement.clientWidth))
 		return (
 				rect.top >= 0 &&
 				rect.left >= 0 &&
@@ -45,7 +59,7 @@
 		);
 	}
 
-
+*/
 
 
 </script>
@@ -103,26 +117,26 @@
 	<div style="font-size: 100px; text-shadow: 0px 5px 5px #000;" class="align-self-center m-5 p-5">
 		Who am I?
 	</div>
-	<div id="note" style="font-size: 100px; text-shadow: 0px 5px 5px #000;" class="align-self-center m-5">
+	<div style="font-size: 100px; text-shadow: 0px 5px 5px #000;" class="align-self-center m-5">
 		What is this site?
 	</div>
 
 	<div></div>
 
 	<!--{#if y >= 120}-->
-	{#if thechosenone && isInViewport(thechosenone)}
-		<div transition:fade|local class="align-self-center">
+	<!--{#if showNote}-->
+
+		<div transition:fade|local id="note"  class="align-self-center">
 		<Card style="width: 60rem" class="shadow-lg bg-notquiteblack text-center text-light vh-100">
 			<CardHeader>
 				<CardTitle>A Note has appeared...</CardTitle>
 			</CardHeader>
 			<CardBody>
 				Hi, I'm Levi or "Lightningbulb" as I go by online
-
 			</CardBody>
 		</Card>
 		</div>
-	{/if}
+	<!--{/if}-->
 </div>
 
 
