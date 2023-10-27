@@ -9,27 +9,27 @@
 		showingCard = !showingCard;
 	}
 
-	let y = 0;
-	//$: console.log(y);
 
+	let elems
 
-	let thechosenone;
 	onMount(() => {
-		thechosenone = document.querySelector('#note');
+		elems = document.querySelectorAll('.fadeCard');
+		let length = elems.length;
+
+
 		document.addEventListener('scroll', function () {
 
-			console.log("checking if element is visible");
-			if(isInViewport(thechosenone, true)) {
-				showNote=true;
-				//thechosenone.style.visibility ="visible";
-				console.log("element is visible");
-			}
-			else {
-				console.log("element is invisible");
-				//thechosenone.style.visibility ="hidden";
-				showNote=false
-			}
+			for (let index = 0; index < length; index++) {
 
+				if (isInViewport(elems[index], true)) {
+				elems[index].isVisible = true;
+					console.log("element is visible");
+				}else{
+					elems[index].isVisible = false;
+					console.log("element is invisible");
+				}
+
+			}
 
 
 		}, {
@@ -37,9 +37,9 @@
 		});
 	});
 
-	let showNote = false;
 
 	const isInViewport = (el, partiallyVisible = false) => {
+
 		const { top, left, bottom, right } = el.getBoundingClientRect();
 		const { innerHeight, innerWidth } = window;
 		return partiallyVisible
@@ -50,32 +50,12 @@
 	};
 
 
-/*
-	function isInViewport(element) {
-		console.log("checking viewport");
-		const rect = element.getBoundingClientRect();
-		console.log(rect.top >= 0 &&
-				rect.left >= 0 &&
-				rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-				rect.right <= (window.innerWidth || document.documentElement.clientWidth))
-		return (
-				rect.top >= 0 &&
-				rect.left >= 0 &&
-				rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-				rect.right <= (window.innerWidth || document.documentElement.clientWidth)
-		);
-	}
-
-*/
-
-
 </script>
 
 <svelte:head>
 	<title>Digital Hobbies</title>
 	<meta name="description" content="Digital Hobbies" />
 </svelte:head>
-<svelte:window bind:scrollY={y}/>
 <div class="d-flex flex-column justify-content-center p-5">
 
 
@@ -128,12 +108,9 @@
 		What is this site?
 	</div>
 
-	<div ></div>
 
-	<!--{#if y >= 120}-->
-
-	<div id="note">
-	{#if showNote}
+	<div class="fadeCard vh-100">
+	{#if elems && elems[0].isVisible}
 		<div transition:fade|local class="align-self-center">
 
 		<Card style="width: 60rem" class="shadow-lg bg-notquiteblack text-center text-light vh-100">
@@ -148,6 +125,10 @@
 		</div>
 		{/if}
 	</div>
+
+
+
+
 </div>
 
 
