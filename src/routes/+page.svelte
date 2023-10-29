@@ -2,44 +2,45 @@
 	import {Card, CardBody, CardFooter, CardHeader, CardTitle} from 'sveltestrap';
 	import Logo from "../lib/assets/LightningbulbLogo.png"
 	import { onMount } from "svelte";
-	import { slide, fade } from 'svelte/transition';
-	let showingCard = true;
 
-	function toggleCard() {
-		showingCard = !showingCard;
-	}
-
-
-	let elems
+	let fadeElems;
 
 	onMount(() => {
-		elems = document.querySelectorAll('.fadeCard');
-		let length = elems.length;
+		fadeElems = document.querySelectorAll('.fadeCard');
+		let length = fadeElems.length;
 
 
 		document.addEventListener('scroll', function () {
 
 			for (let index = 0; index < length; index++) {
 
-				if (isInViewport(elems[index], true)) {
-				elems[index].isVisible = true;
+				if (isInViewport(fadeElems[index], true)) {
+					fadeElems[index].classList.add("isVisible");
 					console.log("element is visible");
 				}else{
-					elems[index].isVisible = false;
-					console.log("element is invisible");
+					fadeElems[index].classList.remove("isVisible");
+					console.log("element is not visible");
 				}
-
 			}
-
-
 		}, {
 			passive: true
 		});
+
 	});
 
 
-	const isInViewport = (el, partiallyVisible = false) => {
+	/*
+	function isInViewport(element) {
+		const rect = element.getBoundingClientRect();
+		return (
+				rect.top >= 0 &&
+				rect.left >= 0 &&
+				rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+				rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+		);
+	}*/
 
+	const isInViewport = (el, partiallyVisible = false) => {
 		const { top, left, bottom, right } = el.getBoundingClientRect();
 		const { innerHeight, innerWidth } = window;
 		return partiallyVisible
@@ -49,57 +50,51 @@
 				: top >= 0 && left >= 0 && bottom <= innerHeight && right <= innerWidth;
 	};
 
-
 </script>
+
 
 <svelte:head>
 	<title>Digital Hobbies</title>
 	<meta name="description" content="Digital Hobbies" />
 </svelte:head>
+
 <div class="d-flex flex-column justify-content-center p-5">
 
 
-	<Card style="width: 20rem" class="shadow-lg bg-notquiteblack text-center text-light align-self-center">
-		<div style="height: 25rem" class=" shadow-lg bg-notequiteblack"
-			 on:mouseenter={() => {toggleCard();}}
-			 on:mouseleave={() => {toggleCard();}}>
+	<Card style="width: 25%" class="shadow-lg bg-notquiteblack text-center text-light align-self-center">
 
-		{#if showingCard}
+		<div class="slidingCard shadow-lg bg-notquiteblack text-center text-light align-self-center" style="height: 25rem; width: 100%;">
 
-			<div transition:slide|local>
 
-				<CardHeader>
-					<CardTitle>Welcome to Digital Hobbies</CardTitle>
-				</CardHeader>
-				<CardBody>
-					<img src={Logo} class="w-100 rounded-2" alt="Lightningbulb Logo">
-				</CardBody>
-				<CardFooter>
-					A Lightningbulb website.
-				</CardFooter>
+				<div class="slidingCardDefault">
 
-			</div>
+					<CardHeader>
+						<CardTitle>Welcome to Digital Hobbies</CardTitle>
+					</CardHeader>
+					<CardBody>
+						<img src={Logo} class="w-100 rounded-2" alt="Lightningbulb Logo">
+					</CardBody>
+					<CardFooter>
+						A Lightningbulb website.
+					</CardFooter>
 
-		{/if}
+				</div>
 
-		{#if !showingCard}
 
-			<div transition:slide|local>
+				<div class="slidingCardHover">
 
-				<CardHeader>
-					<CardTitle>Lightningbulb.png</CardTitle>
-				</CardHeader>
-				<CardBody>
-					I made this image in photoshop,<br> March of 2020.
-				</CardBody>
+					<CardHeader>
+						<CardTitle>Lightningbulb.png</CardTitle>
+					</CardHeader>
+					<CardBody>
+						I made this image in photoshop,<br> March of 2020.
+					</CardBody>
 
-			</div>
+				</div>
 
-		{/if}
 
 		</div>
 	</Card>
-
 
 	<div style="font-size: 100px; text-shadow: 0px 5px 5px #000;" class="align-self-center m-5 p-5">
 		Who am I?
@@ -110,10 +105,7 @@
 
 
 	<div class="fadeCard vh-100">
-	{#if elems && elems[0].isVisible}
-		<div transition:fade|local class="align-self-center">
-
-		<Card style="width: 60rem" class="shadow-lg bg-notquiteblack text-center text-light vh-100">
+		<Card style="width: 60rem" class="shadow-lg bg-notquiteblack m-auto text-center text-light vh-100">
 			<CardHeader>
 				<CardTitle>A Note has appeared...</CardTitle>
 			</CardHeader>
@@ -122,8 +114,6 @@
 			</CardBody>
 		</Card>
 
-		</div>
-		{/if}
 	</div>
 
 
@@ -132,3 +122,43 @@
 </div>
 
 
+<style>
+
+	.slidingCard {
+		position: relative;
+		overflow: hidden
+	}
+	.slidingCardDefault {
+		position: absolute;
+		clip-path: inset(0);
+		transition: clip-path 0.5s;
+		width: 100%;
+		height: 100%;
+	}
+	.slidingCardHover {
+		position: absolute;
+		transition: clip-path 0.5s, transform 0.5s;
+		width: 100%;
+		height: 100%;
+		transform: translateY(100%);
+	}
+
+	.slidingCard:hover .slidingCardDefault {
+		clip-path: inset(0% 0% 100% 0%);
+	}
+	.slidingCard:hover .slidingCardHover {
+		transform: translateY(0);
+	}
+
+	.fadeCard {
+		opacity: 0;
+		transition: opacity 0.5s;
+		transition-timing-function: linear;
+	}
+
+	:global(.isVisible) {
+		opacity: 1 !important;
+	}
+
+
+</style>
